@@ -33,7 +33,7 @@ Praktikum sesiPraktikum[MAX_SESI] = {
 
 // Fungsi untuk mencetak jadwal
 void cetakJadwal(Praktikum sesiPraktikum[], Mahasiswa mahasiswaList[], int jumlahMahasiswa) {
-    cout << "Jadwal Praktikum:\n";
+    cout << "\nJadwal Praktikum:\n";
     for (int i = 0; i < MAX_SESI; i++) {
         cout << sesiPraktikum[i].mataKuliah << " - " << sesiPraktikum[i].hari << ": ";
         for (int j = 0; j < sesiPraktikum[i].jumlahMahasiswa; j++) {
@@ -110,7 +110,6 @@ int main() {
         }
     }
 
-    cout << "\nPenjadwalan Rekursif:\n";
     jadwalRekursif(mahasiswaList, jumlahMahasiswa, 0); // Mulai rekursif dari mahasiswa pertama
     cetakJadwal(sesiPraktikum, mahasiswaList, jumlahMahasiswa);
 
