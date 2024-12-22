@@ -33,7 +33,7 @@ Praktikum sesiPraktikum[MAX_SESI] = {
 
 // Fungsi untuk mencetak jadwal
 void cetakJadwal(Praktikum sesiPraktikum[], Mahasiswa mahasiswaList[], int jumlahMahasiswa) {
-    cout << "Jadwal Praktikum:\n";
+    cout << "\nJadwal Praktikum:\n";
     for (int i = 0; i < MAX_SESI; i++) {
         cout << sesiPraktikum[i].mataKuliah << " - " << sesiPraktikum[i].hari << ": ";
         for (int j = 0; j < sesiPraktikum[i].jumlahMahasiswa; j++) {
@@ -88,8 +88,8 @@ int main() {
     cin >> jumlahMahasiswa;
     cin.ignore(); // Membersihkan input buffer
 
+    cout << "Masukkan data mahasiswa (format: NIM MataKuliah1 MataKuliah2 MataKuliah3): " << endl;
     for (int i = 0; i < jumlahMahasiswa; i++) {
-        cout << "Masukkan data mahasiswa ke-" << (i + 1) << " (format: NIM MataKuliah1 MataKuliah2 MataKuliah3): ";
         string line;
         getline(cin, line);
 
@@ -102,7 +102,6 @@ int main() {
         }
     }
 
-    cout << "\nPenjadwalan Iteratif:\n";
     jadwalIteratif(mahasiswaList, jumlahMahasiswa);
 
     return 0;
