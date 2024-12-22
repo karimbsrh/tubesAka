@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include <cstring>
-#define MAX_MAHASISWA 100
+#define MAX_MAHASISWA 10000
 #define MAX_SESI 8
 #define MAX_CAPACITY 40
 using namespace std;
