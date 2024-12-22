@@ -2,6 +2,9 @@
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <cstdlib>
+#include <chrono>
+#include <fstream>
 #define MAX_MAHASISWA 10000
 #define MAX_SESI 8
 #define MAX_CAPACITY 40
@@ -33,32 +36,9 @@ Praktikum sesiPraktikum[MAX_SESI] = {
 
 // Fungsi untuk mencetak jadwal
 void cetakJadwal(Praktikum sesiPraktikum[], Mahasiswa mahasiswaList[], int jumlahMahasiswa) {
-    cout << "\nJadwal Praktikum:\n";
     for (int i = 0; i < MAX_SESI; i++) {
-        cout << sesiPraktikum[i].mataKuliah << " - " << sesiPraktikum[i].hari << ": ";
-        for (int j = 0; j < sesiPraktikum[i].jumlahMahasiswa; j++) {
-            cout << sesiPraktikum[i].mahasiswa[j] << " ";
-        }
-        cout << endl;
+        sesiPraktikum[i].jumlahMahasiswa = 0; // Reset jumlah mahasiswa setelah setiap iterasi
     }
-
-    cout << "\nMahasiswa yang tidak mendapatkan jadwal:\n";
-    for (int i = 0; i < jumlahMahasiswa; i++) {
-        bool mendapatkanJadwal = false;
-        for (int j = 0; j < MAX_SESI; j++) {
-            for (int k = 0; k < sesiPraktikum[j].jumlahMahasiswa; k++) {
-                if (sesiPraktikum[j].mahasiswa[k] == stoi(mahasiswaList[i].nim)) {
-                    mendapatkanJadwal = true;
-                    break;
-                }
-            }
-            if (mendapatkanJadwal) break;
-        }
-        if (!mendapatkanJadwal) {
-            cout << mahasiswaList[i].nim << " ";
-        }
-    }
-    cout << endl;
 }
 
 // Rekursif: Fungsi untuk mencoba menempatkan mahasiswa pada sesi yang tepat
@@ -73,7 +53,7 @@ void jadwalRekursif(Mahasiswa mahasiswaList[], int jumlahMahasiswa, int index) {
     // Coba untuk setiap mata kuliah yang dimiliki mahasiswa
     for (int j = 0; j < 3; j++) {
         if (mahasiswaList[index].mataKuliah[j].empty()) continue;
-        
+
         // Temukan sesi yang cocok untuk mata kuliah mahasiswa
         for (int k = 0; k < MAX_SESI; k++) {
             if (sesiPraktikum[k].mataKuliah == mahasiswaList[index].mataKuliah[j] && sesiPraktikum[k].jumlahMahasiswa < MAX_CAPACITY && !terjadwal[j]) {
@@ -90,28 +70,27 @@ void jadwalRekursif(Mahasiswa mahasiswaList[], int jumlahMahasiswa, int index) {
 
 int main() {
     Mahasiswa mahasiswaList[MAX_MAHASISWA];
-    int jumlahMahasiswa;
 
-    cout << "Masukkan jumlah mahasiswa: ";
-    cin >> jumlahMahasiswa;
-    cin.ignore(); // Membersihkan input buffer
-
-    for (int i = 0; i < jumlahMahasiswa; i++) {
-        cout << "Masukkan data mahasiswa ke-" << (i + 1) << " (format: NIM MataKuliah1 MataKuliah2 MataKuliah3): ";
-        string line;
-        getline(cin, line);
-
-        stringstream ss(line);
-        ss >> mahasiswaList[i].nim;
-        for (int j = 0; j < 3; j++) {
-            if (!(ss >> mahasiswaList[i].mataKuliah[j])) {
-                mahasiswaList[i].mataKuliah[j] = "";
-            }
+    // Generate data dummy untuk MAX_MAHASISWA mahasiswa
+    for (int i = 0; i < MAX_MAHASISWA; i++) {
+        mahasiswaList[i].nim = to_string(1000 + i);
+        int pilihan = rand() % 3;
+        if (pilihan == 0) {
+            mahasiswaList[i].mataKuliah[0] = "StrukturData";
+            mahasiswaList[i].mataKuliah[1] = "AlgoritmaPemrograman";
+            mahasiswaList[i].mataKuliah[2] = "";
+        } else if (pilihan == 1) {
+            mahasiswaList[i].mataKuliah[0] = "SistemOperasi";
+            mahasiswaList[i].mataKuliah[1] = "StrukturData";
+            mahasiswaList[i].mataKuliah[2] = "";
+        } else {
+            mahasiswaList[i].mataKuliah[0] = "AlgoritmaPemrograman";
+            mahasiswaList[i].mataKuliah[1] = "SistemOperasi";
+            mahasiswaList[i].mataKuliah[2] = "StrukturData";
         }
     }
 
-    jadwalRekursif(mahasiswaList, jumlahMahasiswa, 0); // Mulai rekursif dari mahasiswa pertama
-    cetakJadwal(sesiPraktikum, mahasiswaList, jumlahMahasiswa);
+   jadwalRekursif(mahasiswaList, MAX_MAHASISWA, 0);
 
     return 0;
 }

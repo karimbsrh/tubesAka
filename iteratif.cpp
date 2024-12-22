@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <cstdlib>
 #define MAX_MAHASISWA 10000
 #define MAX_SESI 8
 #define MAX_CAPACITY 40
@@ -82,23 +83,24 @@ void jadwalIteratif(Mahasiswa mahasiswaList[], int jumlahMahasiswa) {
 
 int main() {
     Mahasiswa mahasiswaList[MAX_MAHASISWA];
-    int jumlahMahasiswa;
+    int jumlahMahasiswa = MAX_MAHASISWA;
 
-    cout << "Masukkan jumlah mahasiswa: ";
-    cin >> jumlahMahasiswa;
-    cin.ignore(); // Membersihkan input buffer
-
-    cout << "Masukkan data mahasiswa (format: NIM MataKuliah1 MataKuliah2 MataKuliah3): " << endl;
+    // Generate data dummy untuk 10.000 mahasiswa
     for (int i = 0; i < jumlahMahasiswa; i++) {
-        string line;
-        getline(cin, line);
-
-        stringstream ss(line);
-        ss >> mahasiswaList[i].nim;
-        for (int j = 0; j < 3; j++) {
-            if (!(ss >> mahasiswaList[i].mataKuliah[j])) {
-                mahasiswaList[i].mataKuliah[j] = "";
-            }
+        mahasiswaList[i].nim = to_string(1000 + i);
+        int pilihan = rand() % 3;
+        if (pilihan == 0) {
+            mahasiswaList[i].mataKuliah[0] = "StrukturData";
+            mahasiswaList[i].mataKuliah[1] = "AlgoritmaPemrograman";
+            mahasiswaList[i].mataKuliah[2] = "";
+        } else if (pilihan == 1) {
+            mahasiswaList[i].mataKuliah[0] = "SistemOperasi";
+            mahasiswaList[i].mataKuliah[1] = "StrukturData";
+            mahasiswaList[i].mataKuliah[2] = "";
+        } else {
+            mahasiswaList[i].mataKuliah[0] = "AlgoritmaPemrograman";
+            mahasiswaList[i].mataKuliah[1] = "SistemOperasi";
+            mahasiswaList[i].mataKuliah[2] = "StrukturData";
         }
     }
 
